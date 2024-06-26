@@ -3,7 +3,8 @@ CC		=	cc
 CFLAGS	=	-Wall -Wextra -Werror -g3 #-pthread
 
 SRC		=	philo.c \
-			utils.c
+			parsing.c \
+			initialize_philo.c
 
 OBJ		=	$(SRC:%.c=%.o)
 

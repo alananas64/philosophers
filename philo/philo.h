@@ -22,7 +22,13 @@ typedef struct s_philo
 #include <limits.h>
 #include <stdlib.h>
 
+
+// ----- Parsing -----
+int			parse(int arc, char **arv);
 long long	ft_atoll(const char *str);
-int			ft_isdigit(char **arv, int arc);
+int			check_args(char **arv, int arc);
+
+// ----- Initialize_philo -----
+void	philo_init(char **arv);
 
 #endif
