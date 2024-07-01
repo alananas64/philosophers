@@ -1,21 +1,49 @@
 #include "philo.h"
 
-int	main(int arc, char **arv)
+void	destroy_philo(t_philo *philo)
 {
-	if (parse(arc, arv) == -1)
-	{
-		printf("u got a problem in parsing");
-		return (-1);
-	}
-	philo_init(arv);
-	printf("\nphilo\n");
-	return (0);
+	int	i;
+
+	i = -1;
+	while (++i)
+		pthread_mutex_destroy(philo[i].thread);
 }
 
-/**
- * number_of_philosophers
- * time_to_die
- * time_to_eat
- * time_to_sleep
- * number_of_times_each_philosopher_must_eat
-*/
+void	print_philo(t_philo *philo, t_philo_info *info)
+{
+	printf ("{%i}\n", info->num_p);
+	printf ("{%i}\n", info->time_to_die);
+	printf ("{%i}\n", info->time_to_eat);
+	printf ("{%i}\n", info->time_to_sleep);
+	printf ("{%i}\n", info->times_each_philo_must_eat);
+}
+
+int	main(int ac, char **av)
+{
+	int				i;
+	t_philo			*philo;
+	t_philo_info	*info;
+
+	if (parse(ac, av) == -1)
+		return (-1);
+	philo = malloc(sizeof(t_philo) * atoi(av[1]));
+	if (!philo)
+		return (1);
+	philo_init(philo, ac, av);
+	i = -1;
+	while (++i < info->num_p)
+	{
+		if (pthread_create(&philo[i].thread, NULL, routine, &philo[i]))
+			return (i);
+		philo[i].p_id = i;
+		philo[i].info = &info;
+		if (pthread_join(philo[i].thread, NULL))
+			return (i);
+	}
+	while (++i < info->num_p)
+		if (pthread_join(philo[i].thread, NULL))
+			return (i);
+	destroy_philo(philo);
+	(free(&philo->info), free(philo));
+	return (0);
+}
