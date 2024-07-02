@@ -16,17 +16,18 @@ void	put_forks(t_philo *philo)
 	pthread_mutex_unlock(&philo->info->rfork);
 }
 
-// int	check_starvation(t_philo *philo)
-// {
-// 	// struct timeval	starvation;
-// 	int	starvation;
+int	check_starvation(t_philo *philo)
+{
+	// struct timeval	starvation;
+	int	starvation;
 
-// 	// starvation = gettimeofday(, NULL);
-// 	if (philo->info->time_to_die >= (philo->info->last_meal))
-// 		return (0);
-// 	return (1);
-// }
+	// starvation = gettimeofday(, NULL);
+	if (philo->info->time_to_die >= (philo->info->last_meal))
+		return (0);
+	return (1);
+}
 
+// lastmeal
 void	*routine(void *arg)
 {
 	t_philo	*philo;
@@ -35,23 +36,23 @@ void	*routine(void *arg)
 	int i = 0;
 	while (1 && ++i)
 	{
-		if (!philo[i].info)
+		if (!philo->info[i].p_id)
 		{
 			printf ("<<<<<<here>>>>>>1\n");
-			// exit (100);
+			exit (100);
 		}
 		printf ("{%i} is thinking\n", philo->info[i].p_id);
-		// take_forks(philo);
-		// printf ("{%i} is eating\n", philo->info->p_id);
-		// usleep(philo->info->time_to_eat);
-		// put_forks(philo);
-		// printf ("{%i} is sleeping\n", philo->info->p_id);
-		// usleep(philo->info->time_to_sleep);
-		// if (check_starvation(philo)) //
-		// {
-		// 	log_action(philo->info->p_id, "is dead");
-		// 	break ;
-		// }
+		take_forks(philo);
+		printf ("{%i} is eating\n", philo->info->p_id);
+		usleep(philo->info->time_to_eat);
+		put_forks(philo);
+		printf ("{%i} is sleeping\n", philo->info->p_id);
+		usleep(philo->info->time_to_sleep);
+		if (check_starvation(philo)) //
+		{
+			log_action(philo->info->p_id, "is dead");
+			break ;
+		}
 	}
 	return (NULL);
 }

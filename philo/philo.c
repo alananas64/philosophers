@@ -39,13 +39,7 @@ int	main(int ac, char **av)
 	// print_philo(philo); // debugging
 	while (++i <= philo->num_p)
 	{
-		if (!philo->info)
-		{
-			printf ("<<<<<<philo init>>>\n");
-			// exit (100);
-		}
-		// philo->info[i].p_id = i;
-		if (pthread_create(&philo->info[i].thread, NULL, routine, (void *)&philo[i]))
+		if (pthread_create(&philo->info[i].thread, NULL, routine, philo))
 			return (i);
 		usleep(50);
 	}
