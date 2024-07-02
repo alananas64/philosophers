@@ -1,4 +1,4 @@
-  /* ************************************************************************** */
+/* ************************************************************************** */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -6,6 +6,7 @@
 # define PHILO_H
 
 # define MAX_PHILO 200
+# define MIN_PHILO 1
 
 # include <unistd.h>
 # include <stdio.h>
@@ -14,14 +15,15 @@
 # include <pthread.h>
 // # include <bits/pthreadtypes.h>
 # include <sys/time.h>
+# include <stdbool.h>
 
-typedef struct s_info
+typedef struct s_philo_info
 {
     int num_p;
     int	time_to_die;
     int	time_to_eat;
     int	time_to_sleep;
-    int times_each_philo_must_eat;
+	bool	philo_dead;
 	pthread_mutex_t	*forks;
 	pthread_mutex_t	write_lock;
 	pthread_mutex_t	dead_lock;
@@ -34,6 +36,7 @@ typedef struct s_philo
     int				p_id;
 	int				meals_eaten;
 	long			last_meal;
+    int				times_to_eat;
     t_philo_info	*info;
     pthread_mutex_t	lock;
     pthread_mutex_t	rlock;
@@ -42,11 +45,12 @@ typedef struct s_philo
 }	t_philo;
 
 /* *********************** parse functions ********************************** */
-int     parse(int arc, char **arv);
-void    philo_init(t_philo *philo, int ac, char **arv);
+int	parse(int arc, char **arv);
+int	philo_init(t_philo *philo, int argc, char **argv);
 
 /* *********************** routine functions ******************************** */
-void	*routine(void *arg);
+void			*routine(void *arg);
+void			log_action(int id, char *msg);
 
 #endif
 
