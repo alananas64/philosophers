@@ -19,43 +19,48 @@
 
 typedef struct s_philo_info
 {
-    int num_p;
-    int	time_to_die;
-    int	time_to_eat;
-    int	time_to_sleep;
-	bool	philo_dead;
-	pthread_mutex_t	*forks;
-	pthread_mutex_t	write_lock;
-	pthread_mutex_t	dead_lock;
+    int				p_id;
+    int				time_to_die;
+    int				time_to_eat;
+    int				time_to_sleep;
+	int				*philo_dead;
+	long			last_meal;
+	int				meals_eaten;
+    pthread_t		thread;
+    pthread_mutex_t	rfork;
+    pthread_mutex_t	lfork;
+	pthread_mutex_t	*write_lock;
+	pthread_mutex_t	*dead_lock;
 	pthread_mutex_t	*meal_lock;
 }	t_philo_info;
 
 typedef struct s_philo
 {
-    pthread_t		thread;
-    int				p_id;
-	int				meals_eaten;
-	long			last_meal;
+    int 			num_p;
+	int				philo_dead;
     int				times_to_eat;
     t_philo_info	*info;
-    pthread_mutex_t	lock;
-    pthread_mutex_t	rlock;
-    pthread_mutex_t	dead_lock;
+	pthread_mutex_t	*forks;
 	pthread_mutex_t	write_lock;
+	pthread_mutex_t	dead_lock;
+	pthread_mutex_t	meal_lock;
 }	t_philo;
 
 /* *********************** parse functions ********************************** */
-int	parse(int arc, char **arv);
-int	philo_init(t_philo *philo, int argc, char **argv);
+int		parse(int arc, char **arv);
+
+/* *********************** initialize functions ***************************** */
+int		philo_init(t_philo *philo, int argc, char **argv);
+int		philo_mutex_init(t_philo *philo, t_philo_info *info, int ac, char *av);
 
 /* *********************** routine functions ******************************** */
-void			*routine(void *arg);
-void			log_action(int id, char *msg);
+void	*routine(void *arg);
+void	log_action(int id, char *msg);
 
 #endif
 
 /*
- * Program Structure: ./philo 2 800 200 200
+ * Program Structure: ./philo 2 800 200 200 5
  * 
  * Mandatory Part:
  * Each philosopher is a thread.

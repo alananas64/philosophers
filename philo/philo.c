@@ -9,18 +9,18 @@
 // 		pthread_mutex_destroy(philo[i].thread);
 // }
 
-void	print_philo(t_philo *philo, t_philo_info *info)
-{
-	printf ("{%i}\n", philo->times_to_eat);
-	printf ("{%i}\n", info->num_p);
-	int i = -1;
-	while (++i < info->num_p)
-	{
-		printf ("{%i}\n", philo[i].info->time_to_die);
-		printf ("{%i}\n", philo[i].info->time_to_eat);
-		printf ("{%i}\n", philo[i].info->time_to_sleep);
-	}
-}
+// void	print_philo(t_philo *philo, t_philo_info *info)
+// {
+// 	printf ("{%i}\n", philo->times_to_eat);
+// 	printf ("{%i}\n", info->num_p);
+// 	int i = -1;
+// 	while (++i < info->num_p)
+// 	{
+// 		printf ("{%i}\n", philo[i].info->time_to_die);
+// 		printf ("{%i}\n", philo[i].info->time_to_eat);
+// 		printf ("{%i}\n", philo[i].info->time_to_sleep);
+// 	}
+// }
 
 int	main(int ac, char **av)
 {
@@ -34,19 +34,19 @@ int	main(int ac, char **av)
 	if (!philo)
 		return (1);
 	philo_init(philo, ac, av);
-	print_philo(philo, philo->info);
-	// i = 0;
-	// while (++i <= info->num_p)
-	// {
-	// 	philo[i].p_id = i;
-	// 	if (pthread_create(&philo[i].thread, NULL, routine, &philo[i]))
-	// 		return (i);
-	// 	philo[i].info = info;
-	// }
-	// i = 0;
-	// while (++i <= info->num_p)
-	// 	if (pthread_join(philo[i].thread, NULL))
-	// 		return (i);
-	// // destroy_philo(philo); // 
+	// print_philo(philo, philo->info);
+	i = 0;
+	while (++i <= philo->num_p)
+	{
+		info[i].p_id = i;
+		if (pthread_create(&philo->info[i].thread, NULL, routine, &philo[i]))
+			return (i);
+		philo[i].info = info;
+	}
+	i = 0;
+	while (++i <= philo->num_p)
+		if (pthread_join(philo->info[i].thread, NULL))
+			return (i);
+	// destroy_philo(philo);
 	return (free(&philo->info), free(philo), 0);
 }
