@@ -1,20 +1,21 @@
 #include "philo.h"
 
-int	philo_mutex_init(t_philo *philo, t_philo_info *info, int ac, char *av)
+int	philo_mutex_init(t_philo *philo, t_philo_info *info, int ac, char **av)
 {
 	int	i;
 
 	i = 0;
 	while (++i <= philo->num_p)
 	{
+		philo->info[i].p_id = i;
 		info[i].meals_eaten = 0;
 		info[i].last_meal = 0;
 		info->time_to_die = atoi(av[2]);
 		info->time_to_eat = atoi(av[3]);
 		info->time_to_sleep = atoi(av[4]);
-		philo->times_to_eat = -1;
+		philo->eating_times = -1;
 		if (ac == 6)
-			philo->times_to_eat = atoi(av[5]);
+			philo->eating_times = atoi(av[5]);
 		info[i].write_lock = &philo->write_lock;
 		info[i].dead_lock = &philo->dead_lock;
 		info[i].meal_lock = &philo->meal_lock;
@@ -25,6 +26,7 @@ int	philo_mutex_init(t_philo *philo, t_philo_info *info, int ac, char *av)
 		info[i].rfork = philo->forks[i]; // check header
 		info[i].lfork = philo->forks[(i + 1) % philo->num_p]; // check header
 	}
+	return (0);
 }
 
 int	philo_init(t_philo *philo, int ac, char **av)
@@ -42,7 +44,7 @@ int	philo_init(t_philo *philo, int ac, char **av)
 	if ((pthread_mutex_init(&philo->write_lock, NULL) != 0)
 		|| (pthread_mutex_init(&philo->meal_lock, NULL) != 0)
 		|| (pthread_mutex_init(&philo->dead_lock, NULL) != 0)
-		|| (philo_mutex_init(philo, info, av, ac)))
+		|| (philo_mutex_init(philo, info, ac, av) != 0))
 		return ((printf("pthread_mutex_init"), -1));
 	return (0);
 }

@@ -1,6 +1,6 @@
 NAME	=	philo
 CC		=	cc
-CFLAGS	=	-Wall -Wextra -Werror -pthread -Ofast -fsanitize=thread -I.
+CFLAGS	=	-Wall -Wextra -Werror -pthread -Ofast -g3 -fsanitize=thread -I.
 
 MODE	=	none
 
@@ -23,9 +23,9 @@ REM		=	.DS_Store
 
 SRC		=	philo.c \
 			parsing.c \
+			philo_utils.c \
 			philo_routine.c \
 			initialize_philo.c
-#			philo_utils.c
 
 OBJ_DIR	=	./object
 
