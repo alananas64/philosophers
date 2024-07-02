@@ -1,13 +1,13 @@
 #include "philo.h"
 
-// void	destroy_philo(t_philo *philo)
-// {
-// 	int	i;
+void	destroy_philo(t_philo *philo)
+{
+	int	i;
 
-// 	i = -1;
-// 	while (++i)
-// 		pthread_mutex_destroy(philo[i].thread);
-// }
+	i = -1;
+	while (++i)
+		pthread_mutex_destroy(philo[i]->info.thread);
+}
 
 // void	print_philo(t_philo *philo, t_philo_info *info)
 // {
@@ -26,7 +26,6 @@ int	main(int ac, char **av)
 {
 	int				i;
 	t_philo			*philo;
-	t_philo_info	*info = NULL;
 
 	if (parse(ac, av) == -1)
 		return (-1);
@@ -34,14 +33,14 @@ int	main(int ac, char **av)
 	if (!philo)
 		return (1);
 	philo_init(philo, ac, av);
-	// print_philo(philo, philo->info);
+	// print_philo(philo, philo->info); // debugging
 	i = 0;
 	while (++i <= philo->num_p)
 	{
-		info[i].p_id = i;
+		philo->info[i].p_id = i;
 		if (pthread_create(&philo->info[i].thread, NULL, routine, &philo[i]))
 			return (i);
-		philo[i].info = info;
+		// philo->info[i] = info;
 	}
 	i = 0;
 	while (++i <= philo->num_p)

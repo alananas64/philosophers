@@ -7,7 +7,6 @@ int	philo_mutex_init(t_philo *philo, t_philo_info *info, int ac, char *av)
 	i = 0;
 	while (++i <= philo->num_p)
 	{
-		info[i].p_id = i;
 		info[i].meals_eaten = 0;
 		info[i].last_meal = 0;
 		info->time_to_die = atoi(av[2]);
