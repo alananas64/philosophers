@@ -36,9 +36,9 @@ void	*routine(void *arg)
 	int i = 0;
 
 	philo = (t_philo *)arg;
-	while (--philo->eating_times >= 0)
+	// while (--philo->eating_times >= 0)
+	while (1)
 	{
-		printf("\n hello {%i}\n",philo->eating_times);
 		if (++i > philo->num_p)
 			i = 1;
 		printf ("\033[1;32m{%i} is thinking\n", philo->info[i].p_id); // green
