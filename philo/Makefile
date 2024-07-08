@@ -1,48 +1,43 @@
-NAME	=	philo
-CC		=	cc
-CFLAGS	=	-Wall -Wextra -Werror -pthread -Ofast -I. -g3 -fsanitize=thread
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: nosman <nosman@student.42.fr>              +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2024/07/06 07:31:41 by nosman            #+#    #+#              #
+#    Updated: 2024/07/08 13:42:44 by nosman           ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
 
-MODE	=	none
+NAME 	= 		philo
+CC 		= 		cc
+CFLAGS	=		-Wall -Wextra -Werror -g3 -pthread #do i  need all of the flags?
+SRCS	= 		philo.c utils.c parsing.c  \
+				initialize_philos.c routine.c \
+				actions.c monitoring.c \
 
-ifeq ($(MODE), debug)
-	CFLAGS	+=	-g3 -fsanitize=undefined -fno-omit-frame-pointer -fexceptions #-fsanitize-memory-track-origins
-endif
 
-# ifeq ($(MODE), secure)
+OBJS 	=		$(SRCS:.c=.o)
 
-# 	CFLAGS	+=	-Werror=format-security \
-# 				-U_FORTIFY_SOURCE -D_FORTIFY_SOURCE=3 \
-# 				-D_GLIBCXX_ASSERTIONS \
-# 				-fstack-clash-protection -fstack-protector-strong \
-# 				-Wl,-z,nodlopen -Wl,-z,noexecstack \
-# 				-Wl,-z,relro -Wl,-z,now
-# #				-fstrict-flex-arrays=3
-# endif
 
-REM		=	.DS_Store
 
-SRC		=	philo.c \
-			parsing.c \
-			philo_utils.c \
-			philo_routine.c \
-			initialize_philo.c
+REMOVE		=		rm -rf
 
-OBJ_DIR	=	./object
+all: 			$(NAME)
 
-OBJ		=	$(SRC:.c=.o)
+%.o: %.c
+				$(CC) $(CFLAGS) -o $@ -c $<
 
-$(NAME) : $(OBJ)
-	mkdir -p $(OBJ_DIR)
-	$(CC) $(CFLAGS) $(OBJ) -o $(NAME)
-
-all: $(NAME)
+$(NAME):  		$(OBJS)
+		 		$(CC) $(CFLAGS) $^ -o $(NAME)
 
 clean:
-	$(RM)r $(OBJ)
+				${REMOVE} ${OBJS}
 
-fclean: clean
-	$(RM)r $(NAME) $(OBJ_DIR) $(REM)
+fclean: 		clean
+				${REMOVE} ${NAME}
 
-re: fclean all
+re: 			fclean all
 
-.PHONY: clean fclean re
+.PHONY: 		all clean fclean re
