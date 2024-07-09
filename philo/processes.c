@@ -5,18 +5,13 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: nosman <nosman@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/08 16:41:52 by nosman            #+#    #+#             */
-/*   Updated: 2024/07/09 09:13:22 by nosman           ###   ########.fr       */
+/*   Created: 2024/07/09 13:50:34 by nosman            #+#    #+#             */
+/*   Updated: 2024/07/09 13:50:36 by nosman           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
 
-/**
- * checks if a philosopher can pick up both their left and right forks to eat
- * If both forks are available, it marks them as being used by the philosopher and returns 1.
- * If either fork is not available, it returns 0
-*/
 int	is_fork_available(t_philo *philo)
 {
 	pthread_mutex_lock(philo->left_fork_mutex);
@@ -40,11 +35,6 @@ int	is_fork_available(t_philo *philo)
 	}
 	return (1);
 }
-/**
- * allows a philosopher to take both their left and right forks if they are available
- *  and prints messages to indicate that the forks have been taken.
- * If the forks are not available, it returns an error code (1)
-*/
 
 int	philo_takes_forks(t_philo *philo)
 {
@@ -89,8 +79,8 @@ int	philo_is_sleeping(t_philo *philo)
 	{
 		print_message("\033[1;34mis sleeping\033[0m", philo);
 		if (!ft_sleep(philo->data->time_to_sleep, philo))
-			return (0);//if the sleep is interrupted or the philosopher is dead
-		return (1); // if the sleep is successful
+			return (0);
+		return (1);
 	}
 	else
 		return (0);

@@ -6,7 +6,7 @@
 /*   By: nosman <nosman@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 07:32:09 by nosman            #+#    #+#             */
-/*   Updated: 2024/07/09 13:38:15 by nosman           ###   ########.fr       */
+/*   Updated: 2024/07/09 13:51:28 by nosman           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,8 +62,8 @@ int	check_if_one_is_dead(t_data *data)
 	i = 0;
 	while (i < data->num_of_philo)
 	{
-		if (check_last_meal(&data->philo[i]) == 0)// 0 means one died
-			return (i + 1); // return philo id
+		if (check_last_meal(&data->philo[i]) == 0)
+			return (i + 1);
 		i++;
 	}
 	return (0);
@@ -77,7 +77,7 @@ int	start_monitoring(void *arg)
 	data = (t_data *)arg;
 	while (1)
 	{
-		if (is_philo_dead(data)) // if return non zero he is dead
+		if (is_philo_dead(data))
 			return (0);
 		dead_philo = check_if_one_is_dead(data);
 		if (dead_philo)

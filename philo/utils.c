@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: nosman <nosman@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/06 07:32:26 by nosman            #+#    #+#             */
-/*   Updated: 2024/07/09 10:30:16 by nosman           ###   ########.fr       */
+/*   Created: 2024/07/09 13:48:24 by nosman            #+#    #+#             */
+/*   Updated: 2024/07/09 13:48:27 by nosman           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,16 +44,12 @@ int	ft_sleep(unsigned long int time, t_philo *philo)
 {
 	unsigned long	start;
 
-	// pthread_mutex_lock(&philo->data->mutex_dead);
 	start = get_time();
 	while ((get_time() - start) < time)
 	{
-		// pthread_mutex_unlock(&philo->data->mutex_dead);
 		if (is_philo_dead(philo->data))
 			return (0);
 		usleep(100);
-		// pthread_mutex_lock(&philo->data->mutex_dead);
 	}
-	// pthread_mutex_unlock(&philo->data->mutex_dead);
 	return (1);
 }

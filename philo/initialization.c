@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: nosman <nosman@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/07 11:02:39 by nosman            #+#    #+#             */
-/*   Updated: 2024/07/09 10:28:32 by nosman           ###   ########.fr       */
+/*   Created: 2024/07/09 13:53:22 by nosman            #+#    #+#             */
+/*   Updated: 2024/07/09 13:53:29 by nosman           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,9 +41,6 @@ void	join_threads(t_data *data)
 	}
 }
 
-/**
- * upcoming three functions are for initialize the philo and the mutex
-*/
 int	initialize_philos(t_data *data)
 {
 	int	i;
@@ -68,7 +65,6 @@ int	initialize_philos(t_data *data)
 		data->philo[i].time_to_eat = data->time_to_eat;
 		data->philo[i].time_to_sleep = data->time_to_sleep;
 		data->philo[i].data = data;
-		// data->philo[i].num_of_philo = data->num_of_philo; // i do not think it is neccessary
 	}
 	return (0);
 }
@@ -92,16 +88,13 @@ int	create_mutex(t_data *data)
 	while (++i < data->num_of_philo)
 		pthread_mutex_init(&data->forks[i], NULL);
 	while (++j < data->num_of_philo)
-		data->forks_taken[j] = -1; // -1 means no forks are token yet
-	pthread_mutex_init(&data->mutex_dead, NULL);//protect access to a variable that indicates whether a philosopher is dead.
-	pthread_mutex_init(&data->mutex_meals, NULL);//protect access to a variable that counts the number of meals eaten by the philosophers
-	pthread_mutex_init(&data->mutex_print, NULL);//protect access to a function that prints output, to ensure that only one thread can print at a time.
+		data->forks_taken[j] = -1;
+	pthread_mutex_init(&data->mutex_dead, NULL);
+	pthread_mutex_init(&data->mutex_meals, NULL);
+	pthread_mutex_init(&data->mutex_print, NULL);
 	return (0);
 }
 
-/**
- *  initializes the data structure that holds the parameters
-*/
 int	init_struct(t_data *data, char **av)
 {
 	data->num_of_philo = ft_atoll(av[1]);
@@ -121,7 +114,7 @@ int	init_struct(t_data *data, char **av)
 	data->philo_dead = 0;
 	data->start_time = 0;
 	data->meals_counter = 0;
-	if (create_mutex(data) == -1 || initialize_philos(data)) // -1 or any nonzero is un error, zero is success
+	if (create_mutex(data) == -1 || initialize_philos(data))
 		return (-1);
 	return (0);
 }

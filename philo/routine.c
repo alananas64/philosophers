@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: nosman <nosman@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/06 07:32:20 by nosman            #+#    #+#             */
-/*   Updated: 2024/07/09 10:19:21 by nosman           ###   ########.fr       */
+/*   Created: 2024/07/09 13:49:04 by nosman            #+#    #+#             */
+/*   Updated: 2024/07/09 13:49:06 by nosman           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,20 +34,15 @@ void	one_philo_case(t_philo *philo)
 	printf("\033[0;31m%lu %d died \033[0m\n", get_time()
 		- philo->data->start_time, 1);
 	pthread_mutex_unlock(&philo->data->mutex_print);
-	join_threads(philo->data);// i am joining with tha main thread
+	join_threads(philo->data);
 }
 
 void	print_message(char *str, t_philo *philo)
 {
-	// if (!is_philo_dead(philo->data)) // check all commented in the function
-	// {
-		// pthread_mutex_lock(&philo->data->mutex_dead);
-		pthread_mutex_lock(&philo->data->mutex_print);
-		printf("%ld %d %s\n", get_time()
-			- philo->data->start_time, philo->id, str);
-		pthread_mutex_unlock(&philo->data->mutex_print);
-		// pthread_mutex_unlock(&philo->data->mutex_dead);
-	// }
+	pthread_mutex_lock(&philo->data->mutex_print);
+	printf("%ld %d %s\n", get_time()
+		- philo->data->start_time, philo->id, str);
+	pthread_mutex_unlock(&philo->data->mutex_print);
 }
 
 int	take_fork_eat(t_philo *philo)

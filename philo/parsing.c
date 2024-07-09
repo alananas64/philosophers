@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: nosman <nosman@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/06 07:32:15 by nosman            #+#    #+#             */
-/*   Updated: 2024/07/09 10:29:11 by nosman           ###   ########.fr       */
+/*   Created: 2024/07/09 13:51:07 by nosman            #+#    #+#             */
+/*   Updated: 2024/07/09 13:51:09 by nosman           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ int	check_args(char **arv, int arc)
 	while (++i < arc)
 	{
 		j = 0;
-		if ((arv[i][0] == '0') && (arv[i][1] == '\0')) // if none of them cant be zero
+		if ((arv[i][0] == '0') && (arv[i][1] == '\0'))
 			return (printf("Args should be bigger than zero\n"), -1);
 		if (arv[i][0] == '\0')
 			return (printf("Arguments can not be empty string\n"), -1);

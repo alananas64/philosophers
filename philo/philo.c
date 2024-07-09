@@ -6,7 +6,7 @@
 /*   By: nosman <nosman@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 07:31:50 by nosman            #+#    #+#             */
-/*   Updated: 2024/07/09 13:38:23 by nosman           ###   ########.fr       */
+/*   Updated: 2024/07/09 13:50:45 by nosman           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int	main(int ac, char **av)
 		one_philo_case(data.philo);
 	else
 	{
-		philo_dead_id = start_monitoring(&data); // if non zero he is dead
+		philo_dead_id = start_monitoring(&data);
 		join_threads(&data);
 		if (philo_dead_id)
 		{
