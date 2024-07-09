@@ -1,0 +1,9 @@
+when numbe of meals = 0
+when number of meals = +0 , -0
+./philo "3 200" 300 400
+i and j
+rigth or left first ?
+greedy philo
+int max?
+./philo 50 400 200 150
+drop_forks
