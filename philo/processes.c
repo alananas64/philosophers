@@ -6,7 +6,7 @@
 /*   By: nosman <nosman@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 16:41:52 by nosman            #+#    #+#             */
-/*   Updated: 2024/07/08 16:41:55 by nosman           ###   ########.fr       */
+/*   Updated: 2024/07/09 09:13:22 by nosman           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,23 +19,23 @@
 */
 int	is_fork_available(t_philo *philo)
 {
-	pthread_mutex_lock(philo->left_fork);
-	if (*philo->l_fork && *philo->l_fork != philo->id)
-		pthread_mutex_unlock(philo->left_fork);
+	pthread_mutex_lock(philo->left_fork_mutex);
+	if (*philo->left_fork_pointer && *philo->left_fork_pointer != philo->id)
+		pthread_mutex_unlock(philo->left_fork_mutex);
 	else
 	{
-		pthread_mutex_unlock(philo->left_fork);
+		pthread_mutex_unlock(philo->left_fork_mutex);
 		return (0);
 	}
-	pthread_mutex_lock(philo->right_fork);
-	if (*philo->r_fork && *philo->r_fork != philo->id)
+	pthread_mutex_lock(philo->right_fork_mutex);
+	if (*philo->right_fork_pointer && *philo->right_fork_pointer != philo->id)
 	{
-		*philo->r_fork = philo->id;
-		pthread_mutex_unlock(philo->right_fork);
+		*philo->right_fork_pointer = philo->id;
+		pthread_mutex_unlock(philo->right_fork_mutex);
 	}
 	else
 	{
-		pthread_mutex_unlock(philo->right_fork);
+		pthread_mutex_unlock(philo->right_fork_mutex);
 		return (0);
 	}
 	return (1);
@@ -45,16 +45,17 @@ int	is_fork_available(t_philo *philo)
  *  and prints messages to indicate that the forks have been taken.
  * If the forks are not available, it returns an error code (1)
 */
+
 int	philo_takes_forks(t_philo *philo)
 {
 	if (is_fork_available(philo))
 	{
-		pthread_mutex_lock(philo->left_fork);
-		*philo->l_fork = 0;
-		pthread_mutex_unlock(philo->left_fork);
-		pthread_mutex_lock(philo->right_fork);
-		*philo->r_fork = 0;
-		pthread_mutex_unlock(philo->right_fork);
+		pthread_mutex_lock(philo->left_fork_mutex);
+		*philo->left_fork_pointer = 0;
+		pthread_mutex_unlock(philo->left_fork_mutex);
+		pthread_mutex_lock(philo->right_fork_mutex);
+		*philo->right_fork_pointer = 0;
+		pthread_mutex_unlock(philo->right_fork_mutex);
 	}
 	else
 		return (1);

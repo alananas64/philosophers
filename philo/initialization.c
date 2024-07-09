@@ -1,42 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   initialize_philos.c                                :+:      :+:    :+:   */
+/*   initialization.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nosman <nosman@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/07 11:02:39 by nosman            #+#    #+#             */
-/*   Updated: 2024/07/08 16:37:38 by nosman           ###   ########.fr       */
+/*   Updated: 2024/07/09 10:28:32 by nosman           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
-
-// unsigned long int	get_time(void)
-// {
-// 	static struct timeval	t;
-
-// 	gettimeofday(&t, NULL);
-// 	return ((t.tv_sec * 1000) + (t.tv_usec / 1000));
-// }
-
-// int	ft_sleep(unsigned long int time, t_philo *philo)
-// {
-// 	unsigned long	start;
-
-// 	pthread_mutex_lock(&philo->data->mutex_dead);
-// 	start = get_time();
-// 	while ((get_time() - start) < time)
-// 	{
-// 		pthread_mutex_unlock(&philo->data->mutex_dead);
-// 		if (is_philo_dead(philo->data))
-// 			return (0);
-// 		usleep(100);
-// 		pthread_mutex_lock(&philo->data->mutex_dead);
-// 	}
-// 	pthread_mutex_unlock(&philo->data->mutex_dead);
-// 	return (1);
-// }
 
 void	create_threads(t_data *data)
 {
@@ -78,17 +52,17 @@ int	initialize_philos(t_data *data)
 	while (++i < data->num_of_philo)
 	{
 		data->philo[i].id = i + 1;
-		data->philo[i].l_fork = &data->forks_taken[i];
-		data->philo[i].left_fork = &data->forks[i];
+		data->philo[i].left_fork_pointer = &data->forks_taken[i];
+		data->philo[i].left_fork_mutex = &data->forks[i];
 		if (data->philo[i].id == data->num_of_philo)
 		{
-			data->philo[i].r_fork = &data->forks_taken[0];
-			data->philo[i].right_fork = &data->forks[0];
+			data->philo[i].right_fork_pointer = &data->forks_taken[0];
+			data->philo[i].right_fork_mutex = &data->forks[0];
 		}
 		else
 		{
-			data->philo[i].r_fork = &data->forks_taken[i + 1];
-			data->philo[i].right_fork = &data->forks[i + 1];
+			data->philo[i].right_fork_pointer = &data->forks_taken[i + 1];
+			data->philo[i].right_fork_mutex = &data->forks[i + 1];
 		}
 		data->philo[i].time_to_die = data->time_to_die;
 		data->philo[i].time_to_eat = data->time_to_eat;
@@ -109,7 +83,7 @@ int	create_mutex(t_data *data)
 	data->forks = malloc(sizeof(pthread_mutex_t) * data->num_of_philo);
 	if (!data->forks)
 		return (-1);
-	data->forks_taken = malloc(sizeof(int) * data->num_of_philo); //////////////////////////////
+	data->forks_taken = malloc(sizeof(int) * data->num_of_philo);
 	if (!data->forks_taken)
 		return (-1);
 	data->philo = malloc(sizeof(t_philo) * data->num_of_philo);
@@ -131,7 +105,7 @@ int	create_mutex(t_data *data)
 int	init_struct(t_data *data, char **av)
 {
 	data->num_of_philo = ft_atoll(av[1]);
-	if (data->num_of_philo <= 0) // already handled in parsing
+	if (data->num_of_philo <= 0)
 		return (-1);
 	data->time_to_die = ft_atoll(av[2]);
 	data->time_to_eat = ft_atoll(av[3]);
@@ -139,7 +113,7 @@ int	init_struct(t_data *data, char **av)
 	if (av[5])
 	{
 		data->num_of_meals = ft_atoll(av[5]);
-		if (data->num_of_meals <= 0) // i think this is already handled in parsing?if not it should be over there
+		if (data->num_of_meals <= 0)
 			return (-1);
 	}
 	else

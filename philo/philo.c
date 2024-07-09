@@ -6,59 +6,27 @@
 /*   By: nosman <nosman@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 07:31:50 by nosman            #+#    #+#             */
-/*   Updated: 2024/07/08 14:36:07 by nosman           ###   ########.fr       */
+/*   Updated: 2024/07/09 13:38:23 by nosman           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
-
-// void	create_threads(t_data *data)
-// {
-// 	int	i;
-
-// 	i = 0;
-// 	data->start_time = get_time();
-// 	while (i < data->num_of_philo)
-// 	{
-// 		pthread_create(&data->philo[i].thread_id,
-// 			NULL, &philo_routine, (void *)&data->philo[i]);
-// 		i++;
-// 	}
-// }
-
-// void	join_threads(t_data *data)
-// {
-// 	int	j;
-
-// 	j = -1;
-// 	while (++j < data->num_of_philo)
-// 	{
-// 		if (pthread_join(data->philo[j].thread_id, 0) != 0)
-// 		{
-// 			printf("Error: pthread_join error\n");
-// 			return ;
-// 		}
-// 	}
-// }
 
 int	main(int ac, char **av)
 {
 	t_data	data;
 	int		philo_dead_id;
 
-	// if (arg_num(ac) || args_all_num(av))
-	// 	return (1);
 	if (parse(ac, av) == -1)
 		return (-1);
 	if (init_struct(&data, av) == -1)
 		return (write(2, "Invalid argument\n", 17), 1);
-		// return (ft_putstr_fd("Invalid argument\n", 2), 1);
 	create_threads(&data);
 	if (data.num_of_philo == 1)
 		one_philo_case(data.philo);
 	else
 	{
-		philo_dead_id = begin_monitoring(&data); // if non zero  he is dead
+		philo_dead_id = start_monitoring(&data); // if non zero he is dead
 		join_threads(&data);
 		if (philo_dead_id)
 		{
@@ -69,6 +37,5 @@ int	main(int ac, char **av)
 		}
 	}
 	close_up(&data);
-	// while (1) ;
 	return (0);
 }

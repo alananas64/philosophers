@@ -6,7 +6,7 @@
 /*   By: nosman <nosman@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 07:32:20 by nosman            #+#    #+#             */
-/*   Updated: 2024/07/08 10:35:46 by nosman           ###   ########.fr       */
+/*   Updated: 2024/07/09 10:19:21 by nosman           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,15 +39,15 @@ void	one_philo_case(t_philo *philo)
 
 void	print_message(char *str, t_philo *philo)
 {
-	if (!is_philo_dead(philo->data))
-	{
-		pthread_mutex_lock(&philo->data->mutex_dead);
+	// if (!is_philo_dead(philo->data)) // check all commented in the function
+	// {
+		// pthread_mutex_lock(&philo->data->mutex_dead);
 		pthread_mutex_lock(&philo->data->mutex_print);
 		printf("%ld %d %s\n", get_time()
 			- philo->data->start_time, philo->id, str);
 		pthread_mutex_unlock(&philo->data->mutex_print);
-		pthread_mutex_unlock(&philo->data->mutex_dead);
-	}
+		// pthread_mutex_unlock(&philo->data->mutex_dead);
+	// }
 }
 
 int	take_fork_eat(t_philo *philo)

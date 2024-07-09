@@ -7,3 +7,5 @@ greedy philo
 int max?
 ./philo 50 400 200 150
 drop_forks
+./philo 5 500 200 200 3
+./philo 7 900 300 300

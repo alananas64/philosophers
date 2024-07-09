@@ -6,7 +6,7 @@
 /*   By: nosman <nosman@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 07:32:26 by nosman            #+#    #+#             */
-/*   Updated: 2024/07/08 15:00:05 by nosman           ###   ########.fr       */
+/*   Updated: 2024/07/09 10:30:16 by nosman           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,73 +30,6 @@ void	close_up(t_data *data)
 	free(data->forks_taken);
 	free(data->forks);
 	free(data->philo);
-}
-
-
-// i put the 2 upcoming functions in parsing file
-
-
-// static int	handle_sign(const char *str, int *i)
-// {
-// 	int	sign;
-
-// 	sign = 1;
-// 	if (str[*i] == '-' || str[*i] == '+')
-// 	{
-// 		if (str[*i] == '-')
-// 		{
-// 			sign = -1;
-// 		}
-// 		(*i)++;
-// 	}
-// 	return (sign);
-// }
-
-// long long int	ft_atoll(const char *str)
-// {
-// 	int				i;
-// 	int				sign;
-// 	long long int	res;
-// 	int				digit;
-
-// 	i = 0;
-// 	res = 0;
-// 	while ((str[i] >= 9 && str[i] <= 13) || str[i] == 32)
-// 		i++;
-// 	sign = handle_sign(str, &i);
-// 	while (ft_isdigit(str[i]))
-// 	{
-// 		digit = str[i] - '0';
-// 		if ((res > (9223372036854775807 - digit) / 10) && sign == 1)
-// 			return ((long long int)INT_MAX + 1);
-// 		else if ((res > (9223372036854775807 - digit) / 10) && sign == -1)
-// 			return ((long long int)INT_MAX + 1);
-// 		res = (res * 10) + digit;
-// 		i++;
-// 	}
-// 	return ((int) sign * res);
-// }
-
-int	ft_isdigit(int c)
-{
-	if (c >= '0' && c <= '9')
-		return (1);
-	else
-		return (0);
-}
-
-void	ft_putstr_fd(char *s, int fd)
-{
-	int	i;
-
-	i = 0;
-	if (!s)
-		return ;
-	while (s[i])
-	{
-		write(fd, &s[i], 1);
-		i++;
-	}
 }
 
 unsigned long int	get_time(void)

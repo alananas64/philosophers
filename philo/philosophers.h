@@ -6,10 +6,9 @@
 /*   By: nosman <nosman@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 07:32:33 by nosman            #+#    #+#             */
-/*   Updated: 2024/07/08 14:40:27 by nosman           ###   ########.fr       */
+/*   Updated: 2024/07/09 13:43:14 by nosman           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #ifndef PHILOSOPHERS_H
 # define PHILOSOPHERS_H
@@ -24,10 +23,10 @@
 typedef struct s_philo
 {
 	int						id;
-	pthread_mutex_t			*left_fork;
-	pthread_mutex_t			*right_fork;
-	int						*r_fork;
-	int						*l_fork;
+	pthread_mutex_t			*left_fork_mutex;
+	pthread_mutex_t			*right_fork_mutex;
+	int						*right_fork_pointer;
+	int						*left_fork_pointer;
 	int						num_of_philo;
 	unsigned long int		time_to_die;
 	unsigned long int		time_to_eat;
@@ -54,35 +53,42 @@ typedef struct s_data
 	t_philo					*philo;
 }				t_data;
 
-//************************ Libft ************************//
-// long long int		ft_atoi_l(const char *str);
-void				ft_putstr_fd(char *s, int fd);
-int					ft_isdigit(int c);
-
-//************************ Philosophers ************************//
-// int					args_all_num(char **av);
-// int					arg_num(int ac);
-int	parse(int arc, char **arv);
-int	check_args(char **arv, int arc);
-long long	ft_atoll(const char *str);
-int					init_struct(t_data *data, char **av);
+//---   initialization.c   ---
 void				create_threads(t_data *data);
-int					begin_monitoring(void *arg);
+void				join_threads(t_data *data);
+int					initialize_philos(t_data *data);
+int					create_mutex(t_data *data);
+int					init_struct(t_data *data, char **av);
+
+//---   monitoring.c   ---
+int					check_last_meal(t_philo *philo);
+void				drop_forks(t_philo *philo);
+void				is_max_eat(t_philo *philo);
+int					check_if_one_is_dead(t_data *data);
+int					start_monitoring(void *arg);
+
+//---   parsing.c   ---
+long long			ft_atoll(const char *str);
+int					check_args(char **arv, int arc);
+int					parse(int arc, char **arv);
+
+//---   processes.c   ---
+int					is_fork_available(t_philo *philo);
 int					philo_takes_forks(t_philo *philo);
 int					philo_is_eating(t_philo *philo);
 int					philo_is_sleeping(t_philo *philo);
 int					philo_is_thinking(t_philo *philo);
-void				print_message(char *str, t_philo *philo);
-void				*philo_routine(void *arguments);
-void				join_threads(t_data *data);
-unsigned long int	get_time(void);
-void				is_max_eat(t_philo *philo);
-int					ft_sleep(unsigned long int time, t_philo *philo);
-int					check_last_meal(t_philo *philo);
-void				one_philo_case(t_philo *philo);
-int					check_if_one_is_dead(t_data *data);
-void				drop_forks(t_philo *philo);
+
+//---   routine.c   ---
 int					is_philo_dead(t_data *data);
+void				one_philo_case(t_philo *philo);
+void				print_message(char *str, t_philo *philo);
+int					take_fork_eat(t_philo *philo);
+void				*philo_routine(void *arguments);
+
+//---   utils.c   ---
 void				close_up(t_data *data);
+unsigned long int	get_time(void);
+int					ft_sleep(unsigned long int time, t_philo *philo);
 
 #endif
