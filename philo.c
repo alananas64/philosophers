@@ -6,40 +6,40 @@
 /*   By: nosman <nosman@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 07:31:50 by nosman            #+#    #+#             */
-/*   Updated: 2024/07/08 10:35:38 by nosman           ###   ########.fr       */
+/*   Updated: 2024/07/08 14:36:07 by nosman           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
 
-void	create_threads(t_data *data)
-{
-	int	i;
+// void	create_threads(t_data *data)
+// {
+// 	int	i;
 
-	i = 0;
-	data->start_time = get_time();
-	while (i < data->num_of_philo)
-	{
-		pthread_create(&data->philo[i].thread_id,
-			NULL, &philo_routine, (void *)&data->philo[i]);
-		i++;
-	}
-}
+// 	i = 0;
+// 	data->start_time = get_time();
+// 	while (i < data->num_of_philo)
+// 	{
+// 		pthread_create(&data->philo[i].thread_id,
+// 			NULL, &philo_routine, (void *)&data->philo[i]);
+// 		i++;
+// 	}
+// }
 
-void	join_threads(t_data *data)
-{
-	int	j;
+// void	join_threads(t_data *data)
+// {
+// 	int	j;
 
-	j = -1;
-	while (++j < data->num_of_philo)
-	{
-		if (pthread_join(data->philo[j].thread_id, 0) != 0)
-		{
-			printf("Error: pthread_join error\n");
-			return ;
-		}
-	}
-}
+// 	j = -1;
+// 	while (++j < data->num_of_philo)
+// 	{
+// 		if (pthread_join(data->philo[j].thread_id, 0) != 0)
+// 		{
+// 			printf("Error: pthread_join error\n");
+// 			return ;
+// 		}
+// 	}
+// }
 
 int	main(int ac, char **av)
 {
@@ -69,4 +69,6 @@ int	main(int ac, char **av)
 		}
 	}
 	close_up(&data);
+	// while (1) ;
+	return (0);
 }

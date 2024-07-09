@@ -1,7 +1,0 @@
-when numbe of meals = 0
-when number of meals = +0 , -0
-./philo "3 200" 300 400
-why all the i and j start with -1 instead of 0
-order of taking the forks matters ??? rigth or left first ?
-greedy philo
-int max?

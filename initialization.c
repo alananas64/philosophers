@@ -6,37 +6,67 @@
 /*   By: nosman <nosman@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/07 11:02:39 by nosman            #+#    #+#             */
-/*   Updated: 2024/07/08 14:05:44 by nosman           ###   ########.fr       */
+/*   Updated: 2024/07/08 16:37:38 by nosman           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
 
-unsigned long int	get_time(void)
+// unsigned long int	get_time(void)
+// {
+// 	static struct timeval	t;
+
+// 	gettimeofday(&t, NULL);
+// 	return ((t.tv_sec * 1000) + (t.tv_usec / 1000));
+// }
+
+// int	ft_sleep(unsigned long int time, t_philo *philo)
+// {
+// 	unsigned long	start;
+
+// 	pthread_mutex_lock(&philo->data->mutex_dead);
+// 	start = get_time();
+// 	while ((get_time() - start) < time)
+// 	{
+// 		pthread_mutex_unlock(&philo->data->mutex_dead);
+// 		if (is_philo_dead(philo->data))
+// 			return (0);
+// 		usleep(100);
+// 		pthread_mutex_lock(&philo->data->mutex_dead);
+// 	}
+// 	pthread_mutex_unlock(&philo->data->mutex_dead);
+// 	return (1);
+// }
+
+void	create_threads(t_data *data)
 {
-	static struct timeval	t;
+	int	i;
 
-	gettimeofday(&t, NULL);
-	return ((t.tv_sec * 1000) + (t.tv_usec / 1000));
-}
-
-int	ft_sleep(unsigned long int time, t_philo *philo)
-{
-	unsigned long	start;
-
-	pthread_mutex_lock(&philo->data->mutex_dead);
-	start = get_time();
-	while ((get_time() - start) < time)
+	i = 0;
+	data->start_time = get_time();
+	while (i < data->num_of_philo)
 	{
-		pthread_mutex_unlock(&philo->data->mutex_dead);
-		if (is_philo_dead(philo->data))
-			return (0);
-		usleep(100);
-		pthread_mutex_lock(&philo->data->mutex_dead);
+		pthread_create(&data->philo[i].thread_id,
+			NULL, &philo_routine, (void *)&data->philo[i]);
+		i++;
 	}
-	pthread_mutex_unlock(&philo->data->mutex_dead);
-	return (1);
 }
+
+void	join_threads(t_data *data)
+{
+	int	j;
+
+	j = -1;
+	while (++j < data->num_of_philo)
+	{
+		if (pthread_join(data->philo[j].thread_id, 0) != 0)
+		{
+			printf("Error: pthread_join error\n");
+			return ;
+		}
+	}
+}
+
 /**
  * upcoming three functions are for initialize the philo and the mutex
 */
@@ -101,7 +131,7 @@ int	create_mutex(t_data *data)
 int	init_struct(t_data *data, char **av)
 {
 	data->num_of_philo = ft_atoll(av[1]);
-	if ((data->num_of_philo <= 0) || (data->num_of_philo > 200)) // already handled in parsing
+	if (data->num_of_philo <= 0) // already handled in parsing
 		return (-1);
 	data->time_to_die = ft_atoll(av[2]);
 	data->time_to_eat = ft_atoll(av[3]);

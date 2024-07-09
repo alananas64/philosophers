@@ -6,7 +6,7 @@
 /*   By: nosman <nosman@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 07:32:26 by nosman            #+#    #+#             */
-/*   Updated: 2024/07/08 10:35:52 by nosman           ###   ########.fr       */
+/*   Updated: 2024/07/08 15:00:05 by nosman           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,4 +97,30 @@ void	ft_putstr_fd(char *s, int fd)
 		write(fd, &s[i], 1);
 		i++;
 	}
+}
+
+unsigned long int	get_time(void)
+{
+	static struct timeval	t;
+
+	gettimeofday(&t, NULL);
+	return ((t.tv_sec * 1000) + (t.tv_usec / 1000));
+}
+
+int	ft_sleep(unsigned long int time, t_philo *philo)
+{
+	unsigned long	start;
+
+	// pthread_mutex_lock(&philo->data->mutex_dead);
+	start = get_time();
+	while ((get_time() - start) < time)
+	{
+		// pthread_mutex_unlock(&philo->data->mutex_dead);
+		if (is_philo_dead(philo->data))
+			return (0);
+		usleep(100);
+		// pthread_mutex_lock(&philo->data->mutex_dead);
+	}
+	// pthread_mutex_unlock(&philo->data->mutex_dead);
+	return (1);
 }
